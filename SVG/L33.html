@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- import D3 here or at the end of the body -->
+         <script src="https://d3js.org/d3.v7.min.js" charset="utf-8" ></script>
+  </head>    
+ 
+  <body>
+     <script>
+
+        d3.csv("cars.csv")
+          .then(function(data) {
+            console.log(data);
+        })
+           
+          .catch(function(error){
+            console.log(error);
+          });
+
+     /*   d3.json("https://raw.githubusercontent.com/npow/airline-codes/master/airlines.json")
+          .then(function(data) {
+            console.log(data);
+          })
+            .catch(function(error) {
+                console.log(error);
+            }); */
+     </script> 
+  </body>
+</html>

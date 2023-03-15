@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- import D3 here or at the end of the body -->
+         <script src="https://d3js.org/d3.v7.min.js" charset="utf-8" ></script>
+  </head>    
+ 
+   <body>    
+        <!-- create 5 circles stacked horizontally -->
+       <svg width="760" height="700">
+        <g transform="translate(50, 50)">
+            <circle r="40" cx="0" cy="0"/>
+            <circle r="40" cx="0" cy= "120"/>
+            <circle r="40" cx="0" cy= "240"/>
+            <circle r="40" cx="0" cy= "360"/>
+            <circle r="40" cx="0" cy= "480"/>
+        </g>
+     </svg> 
+         <!-- Activity 2: D3 Selections -->
+        <script>
+            //Use D3 selectors to change the color of the 5 circles
+            d3.select("g").selectAll("circle")
+              .attr("fill", "steelblue")
+            //Use D3 selectors to make the 5 circles increase in size from left to right
+             // .attr("r", function(d,i) { return (i + 1) * 10; }) 
+            //Use D3 selectors to stack them vertically with 50px in between
+              .attr("cy", function(d, i) { return i * 90; });
+
+            //Use D3 selectors to stack them horizontally with 50px in between 
+             //  .attr("cx", function(d,i) { return i* 90; })
+
+        </script>
+   </body>
+</html>
