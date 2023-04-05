@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title> Random description </title>
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+
+        <!-- import D3 Version 6 here or at the end of the body -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
+        
+        <!-- load our custom D3 code (must happen after D3 is loaded) -->
+        <script src="./scatterplot.js"></script>
+
+        <body>
+            <!-- Add a click button -->
+        <button id="update-button"> Click Me </button>
+
+           <!-- Create a vis button -->
+           <button id="vis-button"> Click 3.1</button>
+        </body>
+
+    <!-- D3 code starts -->
+    <svg id="canvas" width="1200" height="800"></svg>
+    <script>
+        //Data
+        const data = [
+        { name: 'London', population: 8674000},
+        { name: 'New York', population: 8406000},
+        { name: 'Sydney', population: 4293000},
+        { name: 'Paris', population: 2244000},
+        { name: 'Beijing', population: 11510000}           
+        ]
+
+
+        //Start Circles
+        let g = d3.select("#canvas")// var g becomes an array of 5 svg circles
+            .selectAll("circle")
+            .data(data)
+            .join("circle") //mapping a circle to each array element
+
+        //Circle Attributes
+        g.attr("fill", "steelblue")
+            .attr("r", function (d) {return +d.population / 1000000})
+            .attr("cx", function(d, i) { return 50*i })
+            .attr("cy", function(d, i) { return 50*i })
+
+        //Circle Transformations
+        g.attr('transform', "translate(50,50)")
+
+        //2.1
+        function getData() { //generate an array of random numbers
+            let data = [];
+            let itemSize = 0;
+
+
+            for(let i=0; i<10; i++) {
+                itemSize = Math.ceil(Math.random() * 5)*10;
+                data.push(itemSize);
+            }
+            return data;
+        }
+
+        //2.2
+        function update(data) {
+            d3.select('#canvas')
+                .selectAll('circle')
+                .data(data)
+                .join(
+                function(enter) {
+                    return enter.append('circle')
+                    .style('opacity', 0.25);
+                },
+                function(update) {
+                    return update.style('opacity', 1); 
+                }
+                )
+                .attr('cx', function(d, i) {
+                return i * 100;
+                })
+                .attr('cy', 50)
+                .attr('r', function(d) {
+                return 0.5 * d;
+                })
+                .style('fill', 'orange');
+        }
+        function updateAll() {
+            let myData = getData(); //get new data from random generator
+            update(myData); //update the visualization
+        }
+        updateAll(); //get new data and visualize (called one time only)
+
+        //2.3
+        d3.select("#update-button") //select button on the page, add a click event to it.
+               .on("click", updateAll);
+
+        //3.1
+        function createVisualization(data) {
+            d3.csv("./cars.csv").then((data) => { //anonymous function returns w/ data
+                      d3.select('#canvas')
+                        .selectAll('circle')
+                        .data(data)
+                        .join(
+                        function(enter) {
+                            return enter.append('circle')
+                            .style('opacity', 0.25);
+                        },
+                        function(update) {
+                            return update.style('opacity', 1); 
+                        }
+                        )
+                        .attr('cx', function(d, i) {
+                            return scale(i);
+                        })
+                        .attr('cy', 50)
+                        .attr('r', function(d) {
+                            return 0.5 * d.Weight_in_lbs;
+                        })
+                        .style('fill', 'blue');	
+            })
+        } 
+       //button function for it
+        d3.select("#vis-button") //select button on the page, add a click event to it.
+             .on("click", createVisualization);
+
+      //3.2
+      var scale = d3.scaleLinear() //returns a function you can invoke later! 
+          .domain([0, 250]) //we have <250 cars
+          .range([0, 1400]); //our SVG is 1400px wide
+     let axis = d3.axisBottom(scale);
+     
+     //creates an axis vis
+     d3.select('#canvas').append("g")
+          .transition()
+          .call(axis).attr("transform", "translate(" + 0 + ", " + 90 + ")");
+
+    </script>
+
+     </head>
+    <body>
+
+        <!-- create an SVG canvas for us to modify -->
+        <svg id="scatterplot" width="1200" height="800"></svg>
+
+    </body>
+</html>
+
