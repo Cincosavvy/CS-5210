@@ -1,3 +1,5 @@
+#This is the code for Lab4 created with the vanilla template provided from the professor. 
+
 # Getting Starting with Vanilla Template
 
 - `index.html` is where you include the D3 library, your D3 code, and any HTML 
